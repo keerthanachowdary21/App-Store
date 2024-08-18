@@ -1,0 +1,52 @@
+/* Write your CSS here */
+.main-container {
+  background-image: linear-gradient(to bottom, #fff1eb, #ace0f9);
+}
+.card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.heading {
+  font-size: 50px;
+  font-family: 'Bree Serif';
+  font-weight: 900;
+  margin-top: 50px;
+  align-self: center;
+}
+.input-container {
+  background-color: transparent;
+  border-radius: 2px;
+  border: 2px black solid;
+  padding: 5px;
+  align-self: center;
+  display: flex;
+}
+.search-input {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  flex-grow: 1;
+  font-weight: bold;
+  font-size: 16px;
+  padding-left: 15px;
+  width: 100%;
+}
+.search-icon {
+  height: 30px;
+  width: 30px;
+}
+.unorder-list-tab {
+  list-style-type: none;
+  display: flex;
+  padding: 0;
+  margin-top: 30px;
+  align-self: center;
+}
+.project-unorder-list {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  width: 100%;
+  justify-content: center;
+}
