@@ -1,10 +1,11 @@
 import {Component} from 'react'
+import AppItem from '../AppItem'
+import TabItem from '../TabItem'
 
 import './index.css'
 
-import TabItem from '../TabItem'
-
-import AppItem from '../AppItem'
+const SEARCH_ICON_URL =
+  'https://assets.ccbp.in/frontend/react-js/app-store/app-store-search-img.png'
 
 const tabsList = [
   {tabId: 'SOCIAL', displayText: 'Social'},
@@ -295,64 +296,71 @@ const appsList = [
   },
 ]
 
-// Write your code here
-
 class AppStore extends Component {
-  state = {searchInput: '', activeTabId: tabsList[0].tabId}
+  state = {
+    searchInput: '',
+    activeTabId: tabsList[0].tabId,
+  }
 
-  onclickEvent = event => {
+  setActiveTabId = tabId => {
+    this.setState({activeTabId: tabId})
+  }
+
+  onChangeSearchInput = event => {
     this.setState({searchInput: event.target.value})
   }
 
-  clicktabitems = tabValue => {
-    this.setState({activeTabId: tabValue})
+  getActiveTabApps = searchedApps => {
+    const {activeTabId} = this.state
+    const filteredApps = searchedApps.filter(
+      eachSearchedApp => eachSearchedApp.category === activeTabId,
+    )
+    return filteredApps
   }
 
-  getFilerApp = () => {
-    const {activeTabId, searchInput} = this.state
-    const filterapps = appsList.filter(
-      eachapp =>
-        eachapp.category === activeTabId &&
-        eachapp.appName.toLowerCase().includes(searchInput.toLocaleLowerCase()),
+  getSearchResults = () => {
+    const {searchInput} = this.state
+    const searchResults = appsList.filter(eachApp =>
+      eachApp.appName.toLowerCase().includes(searchInput.toLowerCase()),
     )
-    return filterapps
+    return searchResults
   }
 
   render() {
-    const {activeTabId, searchInput} = this.state
-    const filterapps = this.getFilerApp()
+    const {searchInput, activeTabId} = this.state
+    const searchResults = this.getSearchResults()
+    const filteredApps = this.getActiveTabApps(searchResults)
     return (
-      <div className="main-container">
-        <div className="card-container">
-          <h1 className="heading">App store</h1>
-          <div className="input-container">
+      <div className="app-container">
+        <div className="app-store">
+          <h1 className="heading">App Store</h1>
+          <div className="search-input-container">
             <input
               type="search"
               placeholder="Search"
               className="search-input"
-              onChange={this.onclickEvent}
               value={searchInput}
+              onChange={this.onChangeSearchInput}
             />
             <img
-              src="https://assets.ccbp.in/frontend/react-js/app-store/app-store-search-img.png"
+              src={SEARCH_ICON_URL}
               alt="search icon"
               className="search-icon"
             />
           </div>
-          <ul className="unorder-list-tab">
-            {tabsList.map(eachItem => (
+          <ul className="tabs-list">
+            {tabsList.map(eachTab => (
               <TabItem
-                key={eachItem.tabId}
-                tabItemInfo={eachItem}
-                clicktabitems={this.clicktabitems}
-                isActive={activeTabId === eachItem.tabId}
+                key={eachTab.tabId}
+                tabDetails={eachTab}
+                setActiveTabId={this.setActiveTabId}
+                isActive={activeTabId === eachTab.tabId}
               />
             ))}
           </ul>
-
-          <ul className="project-unorder-list">
-            {filterapps.map(eachapp => (
-              <AppItem key={eachapp.appId} appItemsInfo={eachapp} />
+          <ul className="apps-list">
+            {filteredApps.map(eachApp => (
+              <AppItem key={eachApp.appId} appDetails={eachApp} />
             ))}
           </ul>
         </div>
@@ -360,5 +368,4 @@ class AppStore extends Component {
     )
   }
 }
-
 export default AppStore
